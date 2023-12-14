@@ -305,3 +305,235 @@ select *from booking;
 |          9 |            6 |         115 |           3 | 2023-12-01   |          9 |
 +------------+--------------+-------------+-------------+--------------+------------+
 
+--Queries
+-- Query 1:Retrieve passengers older than 30 with their booking details
+SELECT p.id, p.fname, p.lname, p.age, b.booking_id, b.schedule_id, b.seat_number
+FROM passengers p
+JOIN booking b ON p.id = b.passenger_id
+WHERE p.age > 30;
++----+---------+-----------+-----+------------+-------------+-------------+
+| id | fname   | lname     | age | booking_id | schedule_id | seat_number |
++----+---------+-----------+-----+------------+-------------+-------------+
+|  1 | Mala    | G.S       |  46 |          3 |         117 |          32 |
+|  4 | Chaitra | Ishwar    |  28 |          8 |         111 |          27 |
+|  5 | Deepa   | S.R       |  32 |          5 |         114 |           4 |
+| 10 | Ganavi  | Jagadeesha |  63 |          7 |         118 |          11 |
++----+---------+-----------+-----+------------+-------------+-------------+
+
+-- Query 2:Find bus routes with AC seater capacity greater than 500 and ordered by route ID
+SELECT * FROM route WHERE ac_seater > 500 ORDER BY route_id;
++----------+------------+-----------+------------+---------+-----------+--------+
+| route_id | start      | finish    | ac_sleeper | sleeper | ac_seater | seater |
++----------+------------+-----------+------------+---------+-----------+--------+
+|        1 | Mysore     | Bangalore |        700 |     500 |       400 |    250 |
+|        5 | Vijapura   | Bangalore |       1640 |    1060 |       895 |    743 |
+|        6 | Bangalore  | Tumakuru  |        777 |     650 |       618 |    524 |
++----------+------------+-----------+------------+---------+-----------+--------+
+     
+--  Query 3:Display passengers who made payments online along with their payment details
+
+SELECT p.fname, p.lname, pa.amount, pa.payment_date, pa.payment_method
+FROM passengers p
+JOIN payment pa ON p.id = pa.passenger_id
+WHERE pa.payment_method LIKE '%Online%';
++---------+-----------+--------+--------------+----------------+
+| fname   | lname     | amount | payment_date | payment_method |
++---------+-----------+--------+--------------+----------------+
+| Mala    | G.S       |    710 | 2023-12-02   | Cash           |
+| Sanjana | N         |   1060 | 2023-11-29   | Online         |
+| Namitha | Kadam     |    400 | 2023-12-15   | online         |
+| Rohan   | Bharadwaj |   1060 | 2023-11-21   | Online         |
++---------+-----------+--------+--------------+----------------+
+
+--  Query 4:Get the total count of employees in each city
+SELECT city, branches + drivers + administrative_staff + maintenance_crew AS total_employees
+FROM employee;
++------------+-----------------+
+| city       | total_employees |
++------------+-----------------+
+| Mysore     |              42 |
+| Bangalore  |              91 |
+| Tumakuru   |              65 |
+| Hassan     |              42 |
+| Mangaluru  |              57 |
+| Udupi      |              44 |
+| Shivamogga |              54 |
+| Belgavi    |              45 |
+| Vijayapura |              34 |
++------------+-----------------+
+     
+-- Query 5: Retrieve bookings made after '2023-12-01' along with their schedule details
+SELECT b.booking_id, b.passenger_id, b.booking_date, s.arrival, s.departure
+FROM booking b
+JOIN schedule s ON b.schedule_id = s.schedule_id
+WHERE b.booking_date > '2023-12-01';
++------------+--------------+--------------+------------+------------+
+| booking_id | passenger_id | booking_date | arrival    | departure  |
++------------+--------------+--------------+------------+------------+
+|          7 |           10 | 2023-12-15   | 2023-12-09 | 2023-12-09 |
+|          9 |            6 | 2023-12-01   | 2023-12-03 | 2023-12-03 |
++------------+--------------+--------------+------------+------------+
+
+--  Query 6:Find passengers who booked seats on buses rated above 9 and display their details
+SELECT p.id, p.fname, p.lname, b.bus_name, b.rating
+FROM passengers p
+JOIN booking bk ON p.id = bk.passenger_id
+JOIN schedule s ON bk.schedule_id = s.schedule_id
+JOIN bus b ON s.bus_id = b.bus_id
+WHERE b.rating > 9;
++----+---------+-----------+------------+--------+
+| id | fname   | lname     | bus_name   | rating |
++----+---------+-----------+------------+--------+
+|  1 | Mala    | G.S       | Hiravata   |    9.6 |
+|  2 | Lakshmi | K.M       | BharatBenz |    9.8 |
+|  4 | Chaitra | Ishwar    | Hiravata   |    9.6 |
++----+---------+-----------+------------+--------+
+     
+--  Query 7:Count the number of passengers per bus type:
+SELECT bus_type, COUNT(*) AS passenger_count
+FROM passenger_bus_info
+GROUP BY bus_type;
++------------+------------------+
+| bus_type   | passenger_count |
++------------+------------------+
+| 1decker    | 2                |
+| 1decker_AC | 1                |
+| 2decker    | 2                |
+| 2decker_AC | 2                |
+| AC         | 3                |
++------------+------------------+
+
+--  Query 8:Find the passengers who traveled on 2023-12-02:
+SELECT fname, lname
+FROM passenger_bus_info
+WHERE id IN (
+    SELECT id
+    FROM schedule
+    WHERE travel_date = '2023-12-02'
+);
++-------+-----------+
+| fname | lname     |
++-------+-----------+
+| Mala  | G.S       |
+| Chaitra | Ishwar  |
++------ -+-----------+
+
+--  Query 9:Retrieve passengers full names and the buses they traveled on, sorted by bus type in ascending order:
+SELECT CONCAT(fname, ' ', lname) AS full_name, bus_name, bus_type
+FROM passenger_bus_info
+ORDER BY bus_type ASC;
++--------------+------------+------------+
+| full_name    | bus_name   | bus_type   |
++--------------+------------+------------+
+| Mala G.S     | Hiravata   | AC         |
+| Chaitra Ishwar | Hiravata   | AC         |
+| Sanjana N    | AshokVK    | 2decker    |
+| Lakshmi K.M  | BharatBenz | 2decker_AC |
+| Namitha Kadam | Cruzio     | AC         |
+| Gowri Holla  | Sweaty     | 1decker    |
+| Vaishnavi T.M | RajExpress | 2decker    |
+| Namitha Kadam | Hiravata   | AC         |
++--------------+------------+------------+
+     
+-- Query 10:Display the passengers who traveled on a 2-decker bus:
+SELECT fname, lname
+FROM passenger_bus_info
+WHERE bus_type LIKE '%2decker%';
++--------------+-----------+
+| fname        | lname     |
++--------------+-----------+
+| Sanjana      | N         |
+| Lakshmi      | K.M       |
+| Vaishnavi    | T.M       |
++--------------+-----------+
+
+--  Query 11:Find the most frequently traveled bus name:
+SELECT bus_name, COUNT(*) AS total_travels
+FROM passenger_bus_info
+GROUP BY bus_name
+ORDER BY total_travels DESC
+LIMIT 1;
++------------+--------------+
+| bus_name   | total_travels |
++------------+--------------+
+| Hiravata   | 3            |
++------------+--------------+
+
+--  Query 12:Identify passengers who traveled on 'RajExpress' bus:
+SELECT fname, lname
+FROM passenger_bus_info
+WHERE bus_name = 'RajExpress';
++---------+----------+
+| fname   | lname    |
++---------+----------+
+| Vaishnavi | T.M     |
++---------+----------+
+
+Views:
+1. View to show detailed booking information:
+sql
+CREATE VIEW vw_booking_details AS
+SELECT
+    b.booking_id,
+    p.fname,
+    p.lname,
+    s.departure,
+    s.arrival,
+    b.seat_number
+FROM booking b
+JOIN passengers p ON b.passenger_id = p.id
+JOIN schedule s ON b.schedule_id = s.schedule_id;
+SELECT * FROM vw_booking_details;
++------------+-----------+-----------+------------+------------+-------------+
+| booking_id | fname     | lname     | departure  | arrival    | seat_number |
++------------+-----------+-----------+------------+------------+-------------+
+| 1          | Mala      | G.S       | 2023-12-03 | 2023-12-02 | 21          |
+| 2          | Sanjana   | N         | 2023-12-03 | 2023-12-03 | 26          |
+| 3          | Chaitra   | Ishwar    | 2023-12-11 | 2023-12-10 | 32          |
+| 4          | Gowri     | Holla     | 2023-12-07 | 2023-12-07 | 14          |
+| 5          | Deepa     | S.R       | 2023-12-14 | 2023-12-13 | 4           |
+| 6          | Namitha   | Kadam     | 2023-12-11 | 2023-12-10 | 8           |
+| 7          | Ganavi    | Jagadeesha | 2023-12-09 | 2023-12-09 | 11          |
+| 8          | Rohan     | Bharadwaj | 2023-12-15 | 2023-12-14 | 27          |
+| 9          | Vaishnavi | T.M       | 2023-12-14 | 2023-12-13 | 3           |
++------------+-----------+-----------+------------+------------+-------------+
+2. View to display bus details with its driver:
+sql
+CREATE VIEW vw_bus_driver AS
+SELECT
+    b.bus_id,
+    b.bus_name,
+    d.d_name AS driver_name
+FROM bus b
+JOIN driver d ON b.driver_id = d.d_id;
+SELECT * FROM vw_bus_driver;
++--------+------------+-------------+
+| bus_id | bus_name   | driver_name |
++--------+------------+-------------+
+| 508    | Hiravata   | Vikram      |
+| 1311   | AshokVK    | Kumara      |
+| 1624   | BharatBenz | Vikram      |
+| 4376   | Mahindra   | Mahesha     |
+| 4842   | RajExpress | Rudra       |
+| 5360   | Cruzio     | Mahesha     |
+| 7513   | Sweaty     | Raju        |
++--------+------------+-------------+
+
+3. View to passanger info with bus :
+sql
+CREATE VIEW passenger_bus_info AS SELECT p.id, p.fname, p.lname, b.bus_name, b.bus_type FROM passengers p JOIN schedule s ON p.id = s.r_id JOIN bus b ON s.bus_id = b.bus_id;
+ 
+select *from passenger_bus_info;
++----+---------+-----------+------------+------------+
+| id | fname   | lname     | bus_name   | bus_type   |
++----+---------+-----------+------------+------------+
+|  4 | Chaitra | Ishwar    | Hiravata   | AC         |
+|  1 | Mala    | G.S       | Hiravata   | AC         |
+|  3 | Sanjana | N         | AshokVK    | 2decker    |
+|  2 | Lakshmi | K.M       | BharatBenz | 2decker_AC |
+|  5 | Deepa   | S.R       | Mahindra   | 1decker_AC |
+|  8 | Rohan   | Bharadwaj | RajExpress | 2decker    |
+|  9 | Namitha | Kadam     | Cruzio     | AC         |
+|  7 | Gowri   | Holla     | Sweaty     | 1decker    |
++----+---------+-----------+------------+------------+
+
