@@ -1,0 +1,29 @@
+Relationships
+  1.Passengers:-Relationships:-Booking:One-to-Many (Onepassenger canhavemultiple bookings, but each 
+bookingisassociatedwithonly one passenger)-Payment:One-to-Many (Onepassenger canmakemultiplepayments, buteach
+ payment is associatedwithonly onepassenger)
+ 2.Driver:-Relationships:-Bus:One-to-Many (Onedriver candrivemultiplebuses,buteachbusis 
+associated withonly onedriver)
+ 3.Bus:-Relationships:-Driver:Many-to-One (Manybuses canhave the samedriver, but eachbus is 
+associated withonly onedriver)
+-Schedule:One-to-Many(Onebuscanhavemultipleschedules,buteachschedule 
+isassociatedwith only onebus)
+ 4.Employee:-Relationships:-Route: One-to-Many (One city can havemultiple routes, but each route is 
+associated withonly onecity)
+ 5.Route:-Relationships:-Employee:Many-to-One (Manyroutescanbeassociatedwiththesamecity, but 
+each routeis associatedwith only onecity)-Schedule:One-to-Many (Oneroutecanhavemultipleschedules, buteach 
+schedule is associatedwith only oneroute)-Stop:One-to-Many(Oneroutecanhavemultiplestops,buteachstopisassociated
+ withonlyoneroute)
+ 6.Schedule:-Relationships:-Bus:Many-to-One(Manyschedulescanbeassociatedwiththesamebus,buteach 
+schedule is associatedwith only onebus)-Route: Many-to-One (Many schedules can be associated with the same route, but 
+eachscheduleis associatedwithonly one route)-Booking: One-to-Many (One schedule canhavemultiple bookings, but each 
+bookingisassociatedwithonly one schedule)
+ 7.Stop:-Relationships:-Route:Many-to-One(Manystopscanbeassociatedwiththesameroute,buteach 
+stopisassociatedwithonly one route)
+ 8.Payment:-Relationships:-Passenger:One-to-Many (Onepassenger canmakemultiplepayments, buteach 
+payment is associatedwith only onepassenger)-Booking: One-to-One (Eachbooking is associatedwithonepayment)
+ 9.Booking:-Relationships:-Passenger:Many-to-One(Manybookingscanbeassociatedwiththesame 
+passenger,buteachbooking isassociated withonly one passenger)-Schedule:Many-to-One (Manybookingscanbeassociatedwiththesame 
+schedule,but eachbooking is associatedwithonly one schedule)-Payment:One-to-One(Eachbookingis associatedwithone payment)
+ TherelationshipsaredescribedasOne-to-Many,Many-to-One, orOne-to-Onebased 
+onhow theentities arerelatedto eachother
