@@ -1,0 +1,73 @@
+TABLES
+
+1. PassengersTable:
+ id(int,primarykey) 
+fname(varchar(20))
+ lname(varchar(20)) 
+email(varchar(20))
+ password(varchar(8))
+ phone_no (varchar(10)) 
+age(int(2))
+
+
+ 2.DriverTable:
+ d_id(int,primarykey) 
+d_name (varchar(20)) 
+start_date(date)
+
+
+ 3.BusTable:
+ bus_id(int,primarykey) 
+bus_name(varchar(10))
+ driver_id(int,foreignkeyto driver) 
+rating (float)
+ bus_type(varchar(10))
+
+
+ 4.EmployeeTable:
+ city(varchar(20),primarykey) 
+branches(int)
+ drivers (int) 
+administrative_staff (int) 
+maintenance_crew(int)
+
+
+ 5.RouteTable:
+ route_id(int,primarykey)
+ start (varchar(10), foreign key to employee city) 
+finish(varchar(10))
+ ac_sleeper(float) 
+sleeper (float)
+ ac_seater(float) 
+seater(float)
+
+
+ 6.ScheduleTable:
+schedule_id(int,primarykey) 
+bus_id(int,foreignkeytobus) 
+r_id (int, foreign key to route) 
+arrival (date)
+ departure(date)
+
+
+7. StopTable:
+ location_id (int, primarykey) 
+location_name(varchar(10)) 
+route_id(int, foreignkeytoroute)
+
+
+8. PaymentTable:
+ payment_id (int, primarykey)
+ passenger_id (int, foreign key to passengers) 
+amount (float)
+ payment_date (date) 
+payment_method(varchar(20))
+
+
+ 9.BookingTable:
+ booking_id(int,primarykey)
+ passenger_id (int, foreign key to passengers) 
+schedule_id(int,foreignkey to schedule) 
+seat_number (int)
+ booking_date(date)
+ payment_id(int, foreignkey to payment)
