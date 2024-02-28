@@ -1,8 +1,0 @@
- The primary goal of a travel agency is to make travel planning and booking easier for their clients. Some objectives of a travel company include:
- 1. Customer relationship managementTravel agencies use CRM systems to collect customer data and provide relevant services. They may also use this information to create discounts
- and other promotional offers.
- 2.Customer service Customer service is a crucial aspect of travelagencies. Poor customer service can lead to unhappy customers, and may result in bad online reviews.
- 3. Automated travel systems Automated travel systems can help manage the sales process, keep records of customers, suppliers, and travel agents, and increase sales.
- 4. Maintaining statistical and financial recordsTravel agency managers maintain statistical and financial records, manage budgets, and sell travel products and tour packages.
- 5. Meeting profit and sales targets Travel agents meet profit and sales targets. They should have excellent knowledge of computer reservations systems, GDS systems, and e-travelling.
- 6. Providing passenger assistance Travel agencies provide services such as consultancy, passenger assistance, cost optimization, and internal communicatio
